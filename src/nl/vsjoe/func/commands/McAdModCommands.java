@@ -3,6 +3,9 @@ package nl.vsjoe.func.commands;
 public class McAdModCommands extends McHelperCommands {
 
 	protected void adMod(String channel, String sender, String login, String hostname, String message, String[] msg ) {
+		if (msg[2].equalsIgnoreCase("!Flymod")) {
+			displayFlyMod(channel);
+		}
 		if (msg[2].equalsIgnoreCase("!kick") || msg[2].equalsIgnoreCase("!ban")) {
 			kickOrBan(channel, hostname, msg);			
 		}

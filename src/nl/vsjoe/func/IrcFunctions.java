@@ -245,4 +245,17 @@ public class IrcFunctions extends IrcConnector {
 			}
 			System.out.println(result.toString());
 		}
+		
+		//Flymod functions
+		//FLymod array
+		public String[] FlyMod = { "onbekend","onbekende" };
+		protected void flyModDetect(String channel, String sender, String user ) {
+			FlyMod[0] = user;
+			FlyMod[1] = sender;
+			sendMessage(channel, Colors.GREEN + "[TIP] " + Colors.MAGENTA + "Wij detecteren het gebruik van Flymod. Gebruik wordt bestraft met een ban.");
+		}
+		protected void displayFlyMod(String channel) {
+			sendMessage(channel, Colors.RED + FlyMod[0] + Colors.NORMAL + " Heeft als laatste flymod gebruikt op de " + Colors.RED + FlyMod[1] + Colors.NORMAL + " server.");
+		}
+		//End OF FLyMod Functions
 }

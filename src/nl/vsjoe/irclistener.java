@@ -61,7 +61,7 @@ User u = null;
 		} else if (message.contains("!trustme " + Cfg.TRUSTCODE)) {
 			op(Cfg.IRCChannel, sender);
 			sendMessage(sender, "gefeliciteerd " + sender + " je bent nu OP.");
-			sendAction(Cfg.IRCChannel, "Heeft " + sender + "Operator gemaakt!");
+			sendAction(Cfg.IRCChannel, "Heeft " + sender + " Operator gemaakt!");
 		} else {
 			sendMessage(sender, "Sorry maar ik begrijp niet wat je zegt.");
 		}
