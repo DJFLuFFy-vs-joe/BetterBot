@@ -38,6 +38,7 @@ public class Cfg {
 	public static String HAXIP = "http://dummy.url.com";
 	public static String VOTE = "http://dummy.url.com";
 	public static String HELP = "http://dummy.url.com";
+	public static String FLYMODURL = "http://dummy.url.php";
 
 	//Boolean to switch Cloudbot Communication on/off
 	public static Boolean ActiveCloud = true;
@@ -125,6 +126,7 @@ public class Cfg {
 		prop.setProperty("IPAdress_DMC", DMCIP);
 		prop.setProperty("IPAdress_DTE", DTEIP);
 		prop.setProperty("IPAdress_HAX", HAXIP);
+		prop.setProperty("Flymod_URL", FLYMODURL);
 		//Setting the Debug setting
 		if(Debug == false){ 
 			prop.setProperty("Debug", "false");
@@ -175,6 +177,7 @@ public class Cfg {
 		DMCIP = prop.getProperty("IPAdress_DMC");
 		DTEIP = prop.getProperty("IPAdress_DTE");
 		HAXIP = prop.getProperty("IPAdress_HAX");
+		FLYMODURL = prop.getProperty("Flymod_URL");
 		
 		//fetching the debug Mode
 		if (prop.getProperty("Debug").equalsIgnoreCase("false")) {
