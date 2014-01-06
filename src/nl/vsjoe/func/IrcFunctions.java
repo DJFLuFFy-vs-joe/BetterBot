@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,17 +108,17 @@ public class IrcFunctions extends IrcConnector {
 			String reason = sKick.toString();
 
 			if ( !(4 >= msg.length)) {
-				kick(channel,msg[3], reason );
 				if (ban == true) {
 					ban(channel, hostname);
 				}
+				kick(channel,msg[3], reason );
 			}
 
 			else if ( !(3 >= msg.length)) {
-				kick(channel, msg[3], "My Channel My rules");
 				if (ban == true ) {
 					ban(channel, hostname);
 				}
+				kick(channel, msg[3], "My Channel My rules");
 			} else {
 				if(ban == true) {
 					msg[2] = "!Ban";
@@ -253,9 +257,40 @@ public class IrcFunctions extends IrcConnector {
 			FlyMod[0] = user;
 			FlyMod[1] = sender;
 			sendMessage(channel, Colors.GREEN + "[TIP] " + Colors.MAGENTA + "Wij detecteren het gebruik van Flymod. Gebruik wordt bestraft met een ban.");
+			AddToFlyModDB(user,sender);
 		}
 		protected void displayFlyMod(String channel) {
 			sendMessage(channel, Colors.RED + FlyMod[0] + Colors.NORMAL + " Heeft als laatste flymod gebruikt op de " + Colors.RED + FlyMod[1] + Colors.NORMAL + " server.");
+		}
+		protected void AddToFlyModDB(String name, String server) {
+			try {
+				// open a connection to the site
+				URL url = new URL(Cfg.FLYMODURL);
+				URLConnection con = url.openConnection();
+				// activate the output
+				con.setDoOutput(true);
+				PrintStream ps = new PrintStream(con.getOutputStream());
+				// send your parameters to your site
+				ps.print("firstKey=firstValue");
+				ps.print("&secondKey=secondValue");
+				ps.print("&playername=" + name);
+				ps.print("&server=" + server);
+
+				// we have to get the input stream in order to actually send the request
+				con.getInputStream();
+
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String line = null;
+				while ((line = in.readLine()) != null) {
+					System.out.println(line);
+				}
+				// close the print stream
+				ps.close();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		//End OF FLyMod Functions
 }
