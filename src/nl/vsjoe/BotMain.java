@@ -12,7 +12,7 @@ public class BotMain {
 		IrcListener bot = new IrcListener();
 		
 		// Debug mode
-		bot.setVerbose(false);
+		bot.setVerbose(Cfg.Debug);
 				
 		// Verbind met IRC server
 		bot.connect(Cfg.IRCServer);
