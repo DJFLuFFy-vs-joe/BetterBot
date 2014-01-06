@@ -8,16 +8,16 @@ public class BotMain {
 		
 		Cfg.Properties();
 		
-		// Maak bot object aan
+		// make a Bot Object
 		IrcListener bot = new IrcListener();
 		
 		// Debug mode
 		bot.setVerbose(Cfg.Debug);
 				
-		// Verbind met IRC server
+		// Connect to the IRC server
 		bot.connect(Cfg.IRCServer);
 		
-		// Verbind met kanaal en identificeer bij NickServ
+		// Connect to the channel and enter NickServ password
 		bot.joinChannel(Cfg.IRCChannel);
 		bot.identify(Cfg.IRCNickServ);
 		
