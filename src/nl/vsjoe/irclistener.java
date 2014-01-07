@@ -8,14 +8,16 @@ import org.jibble.pircbot.User;
 public class IrcListener extends botConsole {
 	//public chat listener
 	public void onMessage(String channel, String sender, String login, String hostname, String message){
-		System.out.println("<" + sender + "> " +  message);
+		if(!Cfg.Debug) {
+			System.out.println("<" + sender + "> " +  message);
+		}
 		//lets make an array of the messages and call it msg[]
 		String[] msg = message.split(" ");
 		//lets start listening to the minecraft servers
 		if (sender.equals("DMC") 
-			|| sender.equals("HAX") 
-			|| sender.equals("DTE") 
-			|| sender.equals("ENG")) {
+				|| sender.equals("HAX") 
+				|| sender.equals("DTE") 
+				|| sender.equals("ENG")) {
 			spelers(channel, sender, login, hostname, message, msg);
 			//lets see if the message is send by a helper
 			if (msg[0].contains(Colors.MAGENTA)){
@@ -33,11 +35,11 @@ public class IrcListener extends botConsole {
 			}	
 		}
 		// END OF minecraft server listener
-		
+
 		// This listens to IrcOp's
 		User users[] = getUsers( channel );
-User u = null;
-		
+		User u = null;
+
 		for (User user : users) {
 			if( sender.equals(user.getNick() ) ){
 				u = user;
