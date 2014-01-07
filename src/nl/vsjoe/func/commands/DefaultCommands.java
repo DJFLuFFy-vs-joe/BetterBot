@@ -21,8 +21,11 @@ public class DefaultCommands extends IrcFunctions {
 		if (msg[2].equalsIgnoreCase("!website")) {
 			website(channel);
 		}
-		if (msg[1].equalsIgnoreCase("was") && msg[6].contains("Flying")) {
+		if (msg[1].equalsIgnoreCase("was") && msg.length > 6 && msg[6].contains("Flying")) {
 			flyModDetect(channel, sender, msg[0]);
+		}
+		if (msg[2].equalsIgnoreCase("!loterij")) {
+			loterij(channel, msg[3]);
 		}
 	}
 

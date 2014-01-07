@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -293,4 +294,24 @@ public class IrcFunctions extends IrcConnector {
 			}
 		}
 		//End OF FLyMod Functions
+		
+		protected void loterij(String channel, String StrMaxNumber) {
+			Random number = new Random();
+			
+			try {
+				int maxNumber = Integer.parseInt(StrMaxNumber);
+				if (maxNumber > 1) {
+				int RandomLot = number.nextInt(maxNumber);
+					sendMessage(channel, Colors.OLIVE + "Het winnende lot van de loterij is " + Colors.GREEN + RandomLot + Colors.OLIVE + " er deden " + maxNumber + " loten mee!");
+				} else {
+					sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is een te laag getal om een loterij te houden.");
+				}
+			} catch (NumberFormatException e) {
+				sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is geen getal.");
+				sendMessage(channel, Colors.RED + "Probeer !loterij getal <!loterij 20>.");
+			}
+			
+			
+		}
+		
 }
