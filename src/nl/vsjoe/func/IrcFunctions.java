@@ -23,6 +23,7 @@ import org.jibble.pircbot.Colors;
 
 import nl.vsjoe.IrcConnector;
 import nl.vsjoe.ref.Cfg;
+import nl.vsjoe.ref.FunLines;
 
 @SuppressWarnings("deprecation")
 public class IrcFunctions extends IrcConnector {
@@ -33,7 +34,9 @@ public class IrcFunctions extends IrcConnector {
 	}
 	//fun Script
 	protected void fun(String channel) {
-		sendMessage(channel, Colors.GREEN + "Chum " + Colors.YELLOW + "is " + Colors.MAGENTA + "Fum!!!");
+		Random quote = new Random();
+		int RandomLine = quote.nextInt(FunLines.FUNNYLINES.length);
+		sendMessage(channel, FunLines.FUNNYLINES[RandomLine]);
 	}
 	//Sleep Script
 	protected void Sleep(int SleepTime) {
