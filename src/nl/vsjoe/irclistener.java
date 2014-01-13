@@ -7,16 +7,24 @@ import org.jibble.pircbot.User;
 
 public class IrcListener extends botConsole {
 	//public chat listener
+	private int timer = 0;
+	
 	public void onMessage(String channel, String sender, String login, String hostname, String message){
 		if(!Cfg.Debug) {
 			System.out.println("<" + sender + "> " +  message);
+			if (timer == 128) {
+				fun(channel);
+				timer = 0;
+			} else {
+				timer = timer + 1;
+			}
 		}
 		//lets make an array of the messages and call it msg[]
 		String[] msg = message.split(" ");
 		//lets start listening to the minecraft servers
-		if (sender.equals("DMC") 
-				|| sender.equals("HAX") 
-				|| sender.equals("DTE") 
+		if (sender.equals("DMC")
+				|| sender.equals("HAX")
+				|| sender.equals("DTE")
 				|| sender.equals("ENG")) {
 			spelers(channel, sender, login, hostname, message, msg);
 			//lets see if the message is send by a helper
