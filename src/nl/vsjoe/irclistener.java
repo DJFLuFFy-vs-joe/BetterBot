@@ -12,6 +12,9 @@ public class IrcListener extends botConsole {
 	public void onMessage(String channel, String sender, String login, String hostname, String message){
 		if(!Cfg.Debug) {
 			System.out.println("<" + sender + "> " +  message);
+			if (sender == Cfg.IRCNick) {
+				timer = 0;
+			}
 			if (timer == 128) {
 				fun(channel);
 				timer = 0;
