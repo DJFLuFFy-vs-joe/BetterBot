@@ -7,7 +7,6 @@ public class FunLines {
 			Colors.OLIVE + "Het is Vandaag Rossje's " + Colors.MAGENTA + "VERJAARDAG!!!",
 			Colors.GREEN + "Chum " + Colors.YELLOW + "is " + Colors.MAGENTA + "Fum!!!",
 			"I like Trains" + Colors.GREEN + " Choo Choo!!!",
-			"Als je echt fun wilt moet je eens " + Colors.OLIVE + "/pong " + Colors.NORMAL + "intypen.",
 			"Als vliegen vliegen achterna vliegen, vliegen vliegen vliegen achterna.",
 			"Van examens krijg je uitslag.",
 			"Fouten zijn kansen om iets te leren.",
