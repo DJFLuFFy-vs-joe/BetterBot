@@ -23,10 +23,17 @@ public class FunLines {
 			"^ ^",
 			"\\o/",
 			Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen " + Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen " + Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen " + Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen " + Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen " + Colors.GREEN + "Meloenen " + Colors.YELLOW + "Meloenen ",
-			Colors.RED + "LET OP!!!" + Colors.NORMAL + " Deze server kan loslopende koala's bevatten.",
+			Colors.RED + "LET OP!!!" + Colors.NORMAL + " Deze server kan loslopende koala's bevatten.         ʕ•ᴥ•ʔ",
 			"LAGG in de chat typen is net zo zinloos als " + Colors.GREEN + "GROEN!!! " + Colors.NORMAL + "roepen bij Lingo.",
 			Colors.MAGENTA + "Fristy " + Colors.NORMAL + "is alleen voor grote jongetjes.",
 			"Een filantroop is gewoon iemand die veel oude troep wegeeft en doet alsof het veel waard is.",
 			"Wie de pot uit de boom staat te kijken valt niet zelf met de deur in huis.",
+			".fml",
+			"Kijk uit een creeper achter je!!!",
+			"(╯°□°)╯︵ ┻━┻",
+			"(ﾉ^_^)ﾉ",
+			"YAAY Sparkless " + Colors.YELLOW + "/☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*・°☆",
+			"Squids" + Colors.CYAN + "<コ:彡  <コ:彡  <コ:彡  " + Colors.OLIVE + "Kill tem with " + Colors.RED + "Fire!!!",
+			"(-, - )…zzzZZZ Jongens ik ga slapen ZZZzzz…( -,-)"
 	};
 }
