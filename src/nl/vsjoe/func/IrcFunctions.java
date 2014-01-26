@@ -28,15 +28,20 @@ import nl.vsjoe.ref.FunLines;
 @SuppressWarnings("deprecation")
 public class IrcFunctions extends IrcConnector {
 
+	public int antispam = 0;
+
 	// Online Query
 	protected void askOnline(String channel) {
 		sendMessage(channel, ".players");
 	}
 	//fun Script
 	protected void fun(String channel) {
-		Random quote = new Random();
-		int RandomLine = quote.nextInt(FunLines.FUNNYLINES.length);
-		sendMessage(channel, FunLines.FUNNYLINES[RandomLine]);
+		if (antispam == 0) { 
+			Random quote = new Random();
+			int RandomLine = quote.nextInt(FunLines.FUNNYLINES.length);
+			sendMessage(channel, FunLines.FUNNYLINES[RandomLine]);
+			antispam = antispam + 25;
+		}
 	}
 	//Sleep Script
 	protected void Sleep(int SleepTime) {
@@ -212,109 +217,121 @@ public class IrcFunctions extends IrcConnector {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 	protected void rebootError(String channel, String name ) {
 		sendMessage(channel, Colors.RED + "Sorry " + name + Colors.RED + " maar je doet het helemaal fout!");
 		sendMessage(channel,Colors.RED + "Probeer eens" + Colors.GREEN + " !restart servernaam" + Colors.RED + " bijvoorbeeld"+ Colors.GREEN + " !restart DMC " + Colors.RED + "voor de vanilla server");
 	}
-	
+
 	// HTTP POST request
-		private void sendPost(String ServerUrl) throws Exception {
+	private void sendPost(String ServerUrl) throws Exception {
 
-			String url = ServerUrl;
+		String url = ServerUrl;
 
-			@SuppressWarnings({ "resource" })
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+		@SuppressWarnings({ "resource" })
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(url);
 
-			// add header
-			post.setHeader("User-Agent", "USER_AGENT");
+		// add header
+		post.setHeader("User-Agent", "USER_AGENT");
 
-			List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-			urlParameters.add(new BasicNameValuePair("sn", "Reboot"));
+		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+		urlParameters.add(new BasicNameValuePair("sn", "Reboot"));
 
 
-			post.setEntity(new UrlEncodedFormEntity(urlParameters));
+		post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
-			HttpResponse response = client.execute(post);
-			System.out.println("\nSending 'POST' request to URL : " + url);
-			System.out.println("Post parameters : " + post.getEntity());
-			System.out.println("Response Code : " + 
-					response.getStatusLine().getStatusCode());
+		HttpResponse response = client.execute(post);
+		System.out.println("\nSending 'POST' request to URL : " + url);
+		System.out.println("Post parameters : " + post.getEntity());
+		System.out.println("Response Code : " + 
+				response.getStatusLine().getStatusCode());
 
-			BufferedReader rd = new BufferedReader(
-					new InputStreamReader(response.getEntity().getContent()));
+		BufferedReader rd = new BufferedReader(
+				new InputStreamReader(response.getEntity().getContent()));
 
-			StringBuffer result = new StringBuffer();
-			String line = "";
-			while ((line = rd.readLine()) != null) {
-				result.append(line);
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		System.out.println(result.toString());
+	}
+
+	//Flymod functions
+	//FLymod array
+	public String[] FlyMod = { "onbekend","onbekende" };
+	protected void flyModDetect(String channel, String sender, String user ) {
+		FlyMod[0] = user;
+		FlyMod[1] = sender;
+		sendMessage(channel, Colors.GREEN + "[TIP] " + Colors.MAGENTA + "Wij detecteren het gebruik van Flymod. Gebruik wordt bestraft met een ban.");
+		String sendName = nameFormatter(user, sender);
+		AddToFlyModDB(sendName,sender);
+	}
+	
+	protected String nameFormatter(String name, String server){
+		switch(server) {
+		case "HAX":
+			return name.substring(2);
+		default:
+			return name.substring(3);	
+		}
+
+	}
+	
+	protected void displayFlyMod(String channel) {
+		sendMessage(channel, Colors.RED + FlyMod[0] + Colors.NORMAL + " Heeft als laatste flymod gebruikt op de " + Colors.RED + FlyMod[1] + Colors.NORMAL + " server.");
+	}
+	
+	protected void AddToFlyModDB(String name, String server) {
+		try {
+			// open a connection to the site
+			URL url = new URL(Cfg.FLYMODURL);
+			URLConnection con = url.openConnection();
+			// activate the output
+			con.setDoOutput(true);
+			PrintStream ps = new PrintStream(con.getOutputStream());
+			// send your parameters to your site
+			ps.print("firstKey=firstValue");
+			ps.print("&secondKey=secondValue");
+			ps.print("&playername=" + name);
+			ps.print("&server=" + server);
+
+			// we have to get the input stream in order to actually send the request
+			con.getInputStream();
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				System.out.println(line);
 			}
-			System.out.println(result.toString());
+			// close the print stream
+			ps.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		//Flymod functions
-		//FLymod array
-		public String[] FlyMod = { "onbekend","onbekende" };
-		protected void flyModDetect(String channel, String sender, String user ) {
-			FlyMod[0] = user;
-			FlyMod[1] = sender;
-			sendMessage(channel, Colors.GREEN + "[TIP] " + Colors.MAGENTA + "Wij detecteren het gebruik van Flymod. Gebruik wordt bestraft met een ban.");
-			AddToFlyModDB(user,sender);
-		}
-		protected void displayFlyMod(String channel) {
-			sendMessage(channel, Colors.RED + FlyMod[0] + Colors.NORMAL + " Heeft als laatste flymod gebruikt op de " + Colors.RED + FlyMod[1] + Colors.NORMAL + " server.");
-		}
-		protected void AddToFlyModDB(String name, String server) {
-			try {
-				// open a connection to the site
-				URL url = new URL(Cfg.FLYMODURL);
-				URLConnection con = url.openConnection();
-				// activate the output
-				con.setDoOutput(true);
-				PrintStream ps = new PrintStream(con.getOutputStream());
-				// send your parameters to your site
-				ps.print("firstKey=firstValue");
-				ps.print("&secondKey=secondValue");
-				ps.print("&playername=" + name);
-				ps.print("&server=" + server);
+	}
+	//End OF FLyMod Functions
 
-				// we have to get the input stream in order to actually send the request
-				con.getInputStream();
+	protected void loterij(String channel, String StrMaxNumber) {
+		Random number = new Random();
 
-				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-				String line = null;
-				while ((line = in.readLine()) != null) {
-					System.out.println(line);
-				}
-				// close the print stream
-				ps.close();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		//End OF FLyMod Functions
-		
-		protected void loterij(String channel, String StrMaxNumber) {
-			Random number = new Random();
-			
-			try {
-				int maxNumber = Integer.parseInt(StrMaxNumber);
-				if (maxNumber > 1) {
+		try {
+			int maxNumber = Integer.parseInt(StrMaxNumber);
+			if (maxNumber > 1) {
 				int RandomLot = number.nextInt(maxNumber);
-					sendMessage(channel, Colors.OLIVE + "Het winnende lot van de loterij is " + Colors.GREEN + RandomLot + Colors.OLIVE + " er deden " + maxNumber + " loten mee!");
-				} else {
-					sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is een te laag getal om een loterij te houden.");
-				}
-			} catch (NumberFormatException e) {
-				sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is geen getal.");
-				sendMessage(channel, Colors.RED + "Probeer !loterij getal <!loterij 20>.");
+				sendMessage(channel, Colors.OLIVE + "Het winnende lot van de loterij is " + Colors.GREEN + RandomLot + Colors.OLIVE + " er deden " + maxNumber + " loten mee!");
+			} else {
+				sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is een te laag getal om een loterij te houden.");
 			}
-			
-			
+		} catch (NumberFormatException e) {
+			sendMessage(channel, Colors.RED + "Sorry, maar " + StrMaxNumber + " is geen getal.");
+			sendMessage(channel, Colors.RED + "Probeer !loterij getal <!loterij 20>.");
 		}
-		
+
+	}
+
 }

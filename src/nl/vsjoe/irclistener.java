@@ -11,16 +11,19 @@ public class IrcListener extends botConsole {
 	
 	public void onMessage(String channel, String sender, String login, String hostname, String message){
 		if(!Cfg.Debug) {
-			System.out.println("<" + sender + "> " +  message);
+			System.out.println("<" + sender + "> " +  nameFormatter(message, sender));
 			if (sender == Cfg.IRCNick) {
 				timer = 0;
 			}
-			if (timer == 128) {
+			if (timer == 512) {
 				fun(channel);
 				timer = 0;
 			} else {
 				timer = timer + 1;
 			}
+		}
+		if (antispam > 0) {
+			antispam = antispam - 1;
 		}
 		//lets make an array of the messages and call it msg[]
 		String[] msg = message.split(" ");
@@ -46,7 +49,7 @@ public class IrcListener extends botConsole {
 			}	
 		}
 		// END OF minecraft server listener
-
+		
 		// This listens to IrcOp's
 		User users[] = getUsers( channel );
 		User u = null;
